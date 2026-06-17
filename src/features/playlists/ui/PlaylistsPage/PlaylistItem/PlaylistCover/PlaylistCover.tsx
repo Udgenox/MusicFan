@@ -2,6 +2,7 @@ import type {Images} from "@/common/types/types";
 import {useDeletePlaylistCoverMutation, useUploadPlaylistCoverMutation} from "@/features/playlists/api/playlistsApi";
 import type {ChangeEvent} from "react";
 import defaultCover from '@/assets/images/default-playlist-cover.png'
+import {toast} from "react-toastify";
 import s from "./PlaylistCover.module.css"
 
 type Props = {
@@ -11,7 +12,7 @@ type Props = {
 
 export const PlaylistCover = ({ images, playlistId }: Props) => {
     const originalCover = images.main?.find(img => img.type === 'original')
-    const src = originalCover ? originalCover?.url : defaultCover
+    const src = originalCover ? `${originalCover.url}?t=${Date.now()}` : defaultCover;
 
     const [uploadCover] = useUploadPlaylistCoverMutation()
     const [deleteCover] = useDeletePlaylistCoverMutation()
@@ -24,11 +25,11 @@ export const PlaylistCover = ({ images, playlistId }: Props) => {
         if (!file) return
 
         if (!allowedTypes.includes(file.type)) {
-            alert('Only JPEG, PNG or GIF images are allowed')
+            toast('Only JPEG, PNG or GIF images are allowed', {type: 'error', theme: 'dark', position: 'top-right'})
         }
 
         if (file.size > maxSize) {
-            alert(`The file is too large. Max size is ${Math.round(maxSize / 1024)} KB`)
+            toast(`The file is too large. Max size is ${Math.round(maxSize / 1024)} KB`, {type: 'error', theme: 'dark', position: 'top-right'})
         }
 
         uploadCover({ playlistId, file })
