@@ -7,7 +7,7 @@ import {
 type Props = {
     playlist: PlaylistData;
     deletePlaylistHandler: (playlistId: string) => void;
-    editPlaylistHandler: (playlist: PlaylistData) => void;
+    editPlaylistHandler: (playlist: PlaylistData | null) => void;
 }
 
 export const PlaylistItem = ({playlist,editPlaylistHandler, deletePlaylistHandler} : Props) => {
