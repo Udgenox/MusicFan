@@ -13,6 +13,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     unknown,
     FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+
     // Ждём завершения любого текущего процесса обновления токена (если мьютекс заблокирован)
     await mutex.waitForUnlock()
 
